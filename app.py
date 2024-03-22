@@ -47,6 +47,16 @@ def query():
 def ethical_test():
     return(render_template("ethical_test.html"))
 
+@app.route("/delete", methods=["GET","POST"])
+def delete():
+    conn = sqlite3.connect('log.db')
+    c = conn.cursor()
+    c.execute("delete from employee;")
+    conn.commit()
+    c.close()
+    conn.close()
+    return(render_template("delete.html"))
+
 @app.route("/answer", methods=["GET","POST"])
 def answer():
     ans = request.form["options"]
@@ -55,6 +65,15 @@ def answer():
         return(render_template("wrong.html"))
     else:
         return(render_template("correct.html"))
+
+@app.route("/food_exp", methods=["GET","POST"])
+def food_exp():
+    return(render_template("food_exp.html"))
+
+@app.route("/prediction", methods=["GET","POST"])
+def prediction():
+    income = float(request.form.get("income"))
+    return(render_template("prediction.html", r = (income * 0.485) + 147))
 
 
 
